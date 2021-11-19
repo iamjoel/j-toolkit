@@ -1,9 +1,21 @@
 import getDB from "../../utils/get-db"
-
-const create = async () => {
-  const db = await getDB('info')
+interface Info {
+  name: string
+  content: string
+  classify?: string
+  tag?: string[]
+  type?: 'string' | 'link'
 }
 
-export default {
-  create
+class InfoService {
+  db: any
+  constructor() {
+    this.db = getDB('info')
+  }
+
+  create (info: Info) {
+
+  }
 }
+
+export default InfoService 

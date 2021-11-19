@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node --trace-deprecation --abort-on-uncaught-exception -r ts-node/register ./src/index.ts",
-    "start2": "ts-node ./src/index.ts",
+    "start": "ts-node ./src/index.ts",
+    "start2": "node --trace-deprecation --abort-on-uncaught-exception -r ts-node/register ./src/index.ts",
     "test": "jest"
   },
   "engines": {
@@ -23,6 +23,7 @@
     "@types/jest": "^27.0.2",
     "@types/lowdb": "^1.0.11",
     "babel-jest": "^27.2.4",
+    "cross-env": "^7.0.3",
     "jest": "^27.2.5",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
@@ -30,6 +31,6 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "fs-extra": "^10.0.0",
-    "lowdb": "^3.0.0"
+    "lowdb": "^1.0.0"
   }
 }

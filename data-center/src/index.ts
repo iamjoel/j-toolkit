@@ -1,3 +1,3 @@
-import info from './module/info'
-info.create()
+import InfoService from './module/info'
+const infoService = new InfoService()
 // export * from './module/info'
