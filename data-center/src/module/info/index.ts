@@ -28,7 +28,7 @@ export interface Info {
   tagNames?: string[]
   tags?: IDName[]
 
-  type?: 'string' | 'link'
+  type?: 'text' | 'link'
 }
 
 interface QueryParam {
@@ -49,6 +49,7 @@ class InfoService {
     classifyName = '',
     tagNames = [],
     name,
+    type = 'text',
     ...restInfo
   }: Info) :number{
     try {
@@ -62,6 +63,7 @@ class InfoService {
       const data = {
         id,
         name,
+        type,
         ...restInfo
       }
 

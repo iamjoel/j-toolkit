@@ -1,4 +1,4 @@
-import InfoService from './'
+import InfoService, { Info } from './'
 const service = new InfoService()
 const db = service.db
 resetData()
@@ -9,15 +9,16 @@ describe('info', () => {
   test('create', () => {
     const normalItem = {name: 'address', content: '江苏省苏州市...'}
     let id = service.create(normalItem)
-    expect(db.get('data').value()[0]).toEqual({id: 1, name: 'address', content: '江苏省苏州市...'})
+    expect(db.get('data').value()[0]).toEqual({id: 1, name: 'address', content: '江苏省苏州市...', type: 'text'})
     expect(id).toBe(1)
 
-    const hasTagAndAddressItem = {name: 'address2', content: '江苏省苏州市...', tagNames: ['公司'], classifyName: '常用'}
+    const hasTagAndAddressItem: Info = {name: 'address2', content: '江苏省苏州市...', tagNames: ['公司'], classifyName: '常用', type: 'link'}
     id = service.create(hasTagAndAddressItem)
     expect(db.get('data').value()[1]).toEqual({
       id: 2, name: 'address2', content: '江苏省苏州市...',
       classifyId: 1,
       tagIds: [1],
+      type: 'link'
     })
     expect(id).toBe(2)
     expect(db.get('classifyList').value()[0].name).toBe('常用')
@@ -54,12 +55,14 @@ describe('info', () => {
       {
         id: 1,
         name: 'a',
-        content: 'a content'
+        content: 'a content',
+        type: 'text'
       },
       {
         id: 2,
         name: 'a1',
-        content: 'a1 content'
+        content: 'a1 content',
+        type: 'text'
       },
       {
         id: 3,
@@ -68,7 +71,8 @@ describe('info', () => {
         classify: {
           id: 1,
           name: 'common'
-        }
+        },
+        type: 'text'
       },
       {
         id: 4,
@@ -87,7 +91,8 @@ describe('info', () => {
             id: 2,
             name: 'tag2'
           },
-        ]
+        ],
+        type: 'text'
       }
     ]
 
