@@ -19,6 +19,12 @@ export interface Info {
   type?: 'string' | 'link'
 }
 
+interface QueryParam {
+  name: string,
+  classify: string,
+  tag: string
+}
+
 class InfoService {
   db: low.LowdbSync<DBStruct>
   constructor() {
@@ -30,7 +36,7 @@ class InfoService {
     tag = [],
     name,
     ...restInfo
-  }: Info) {
+  }: Info) :string{
     try {
       const db = this.db
 
@@ -70,6 +76,24 @@ class InfoService {
     } catch(e) {
       throw e
     }
+  }
+
+  list ({
+    name,
+    classify,
+    tag,
+  }: Partial<QueryParam> ={}): Info[] {
+    const res =  this.db.get('data').filter((item: Info)=> {
+      if(
+        (name ? item.name.includes(name) : true) &&
+        (classify ? item.classify?.includes(classify) : true) &&
+        (tag ? item.tag?.some(t => t.includes(tag)): true)
+      ) {
+        return true
+      }
+      return false
+    }).value()
+    return res
   }
 }
 

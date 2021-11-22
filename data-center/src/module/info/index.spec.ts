@@ -24,6 +24,105 @@ describe('info', () => {
       name: 'address', content: '江苏省苏州市...'
     })).toThrow()
   })
+
+  test('list', () => {
+    service.create({
+      name: 'a',
+      content: 'a content'
+    })
+    service.create({
+      name: 'a1',
+      content: 'a1 content'
+    })
+    service.create({
+      name: 'b',
+      content: 'b content',
+      classify: 'common'
+    })
+    service.create({
+      name: 'c',
+      content: 'c content',
+      classify: 'common',
+      tag: ['tag1', 'tag2']
+    })
+
+    expect(service.list()).toEqual([
+      {
+        name: 'a',
+        content: 'a content'
+      },
+      {
+        name: 'a1',
+        content: 'a1 content'
+      },
+      {
+        name: 'b',
+        content: 'b content',
+        classify: 'common'
+      },
+      {
+        name: 'c',
+        content: 'c content',
+        classify: 'common',
+        tag: ['tag1', 'tag2']
+      }
+    ])
+
+    expect(service.list({
+      name: 'a'
+    })).toEqual([
+      {
+        name: 'a',
+        content: 'a content'
+      },
+      {
+        name: 'a1',
+        content: 'a1 content'
+      }
+    ])
+
+    expect(service.list({
+      classify: 'co'
+    })).toEqual([
+      {
+        name: 'b',
+        content: 'b content',
+        classify: 'common'
+      },
+      {
+        name: 'c',
+        content: 'c content',
+        classify: 'common',
+        tag: ['tag1', 'tag2']
+      }
+    ])
+
+    expect(service.list({
+      tag: 'tag'
+    })).toEqual([
+      {
+        name: 'c',
+        content: 'c content',
+        classify: 'common',
+        tag: ['tag1', 'tag2']
+      }
+    ])
+
+    expect(service.list({
+      tag: 'tag3'
+    })).toEqual([])
+
+    expect(service.list({
+      name: 'b',
+      classify: 'co'
+    })).toEqual([
+      {
+        name: 'b',
+        content: 'b content',
+        classify: 'common'
+      },
+    ])
+  })
 })
 
 function resetData () {
