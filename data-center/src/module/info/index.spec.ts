@@ -12,12 +12,16 @@ describe('info', () => {
     expect(db.get('data').value()[0]).toEqual({id: 1, name: 'address', content: '江苏省苏州市...'})
     expect(id).toBe(1)
 
-    const hasTagAndAddressItem = {name: 'address2', content: '江苏省苏州市...', tag: ['公司'], classify: '常用'}
+    const hasTagAndAddressItem = {name: 'address2', content: '江苏省苏州市...', tagNames: ['公司'], classifyName: '常用'}
     id = service.create(hasTagAndAddressItem)
-    expect(db.get('data').value()[1]).toEqual({id: 2, name: 'address2', content: '江苏省苏州市...', tag: ['公司'], classify: '常用'})
+    expect(db.get('data').value()[1]).toEqual({
+      id: 2, name: 'address2', content: '江苏省苏州市...',
+      classifyId: 1,
+      tagIds: [1],
+    })
     expect(id).toBe(2)
-    expect(db.get('classifyList').value()[0].value).toBe('常用')
-    expect(db.get('tagList').value()[0].value).toBe('公司')
+    expect(db.get('classifyList').value()[0].name).toBe('常用')
+    expect(db.get('tagList').value()[0].name).toBe('公司')
 
     // name 不能重名
     expect(() => service.create({
@@ -37,16 +41,16 @@ describe('info', () => {
     service.create({
       name: 'b',
       content: 'b content',
-      classify: 'common'
+      classifyName: 'common'
     })
     service.create({
       name: 'c',
       content: 'c content',
-      classify: 'common',
-      tag: ['tag1', 'tag2']
+      classifyName: 'common',
+      tagNames: ['tag1', 'tag2']
     })
 
-    expect(service.list()).toEqual([
+    const allInfo = [
       {
         id: 1,
         name: 'a',
@@ -61,108 +65,85 @@ describe('info', () => {
         id: 3,
         name: 'b',
         content: 'b content',
-        classify: 'common'
+        classify: {
+          id: 1,
+          name: 'common'
+        }
       },
       {
         id: 4,
         name: 'c',
         content: 'c content',
-        classify: 'common',
-        tag: ['tag1', 'tag2']
+        classify: {
+          id: 1,
+          name: 'common'
+        },
+        tags: [
+          {
+            id: 1,
+            name: 'tag1'
+          },
+          {
+            id: 2,
+            name: 'tag2'
+          },
+        ]
       }
-    ])
+    ]
+
+    expect(service.list()).toEqual(allInfo)
 
     expect(service.list({
       name: 'a'
-    })).toEqual([
-      {
-        id: 1,
-        name: 'a',
-        content: 'a content'
-      },
-      {
-        id: 2,
-        name: 'a1',
-        content: 'a1 content'
-      }
-    ])
+    })).toEqual([allInfo[0],allInfo[1]])
 
     expect(service.list({
-      classify: 'co'
-    })).toEqual([
-      {
-        id: 3,
-        name: 'b',
-        content: 'b content',
-        classify: 'common'
-      },
-      {
-        id: 4,
-        name: 'c',
-        content: 'c content',
-        classify: 'common',
-        tag: ['tag1', 'tag2']
-      }
-    ])
+      classifyName: 'co'
+    })).toEqual(([allInfo[2],allInfo[3]]))
 
     expect(service.list({
-      tag: 'tag'
-    })).toEqual([
-      {
-        id: 4,
-        name: 'c',
-        content: 'c content',
-        classify: 'common',
-        tag: ['tag1', 'tag2']
-      }
-    ])
+      tagName: 'tag'
+    })).toEqual([allInfo[3]])
 
     expect(service.list({
-      tag: 'tag3'
+      tagName: 'tag3'
     })).toEqual([])
 
     expect(service.list({
       name: 'b',
-      classify: 'co'
-    })).toEqual([
-      {
-        id: 3,
-        name: 'b',
-        content: 'b content',
-        classify: 'common'
-      },
-    ])
+      classifyName: 'co'
+    })).toEqual([allInfo[2]])
   })
 
   test('classifyList', () => {
     service.create({
       name: 'a',
       content: 'a',
-      classify: 'c1'
+      classifyName: 'c1'
     })
     service.create({
       name: 'b',
       content: 'a',
-      classify: 'c2'
+      classifyName: 'c2'
     })
     service.create({
       name: 'c',
       content: 'a',
-      classify: 'c3'
+      classifyName: 'c3'
     })
 
     expect(service.classifyList()).toEqual([
       {
         id: 1,
-        value: 'c1'
+        name: 'c1'
       },
       {
         id: 2,
-        value: 'c2'
+        name: 'c2'
       },
       {
         id: 3,
-        value: 'c3'
+        name: 'c3'
       },
     ])
   })
@@ -171,31 +152,31 @@ describe('info', () => {
     service.create({
       name: 'a',
       content: 'a',
-      tag: ['a', 'b', 'c']
+      tagNames: ['a', 'b', 'c']
     })
 
     service.create({
       name: 'a1',
       content: 'a',
-      tag: ['d']
+      tagNames: ['d']
     })
 
     expect(service.tagList()).toEqual([
       {
         id: 1,
-        value: 'a'
+        name: 'a'
       },
       {
         id: 2,
-        value: 'b'
+        name: 'b'
       },
       {
         id: 3,
-        value: 'c'
+        name: 'c'
       },
       {
         id: 4,
-        value: 'd'
+        name: 'd'
       },
     ])
   })
