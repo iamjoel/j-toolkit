@@ -123,6 +123,42 @@ describe('info', () => {
       },
     ])
   })
+
+  test('classifyList', () => {
+    service.create({
+      name: 'a',
+      content: 'a',
+      classify: 'c1'
+    })
+    service.create({
+      name: 'b',
+      content: 'a',
+      classify: 'c2'
+    })
+    service.create({
+      name: 'c',
+      content: 'a',
+      classify: 'c3'
+    })
+
+    expect(service.classifyList()).toEqual(['c1', 'c2', 'c3'])
+  })
+
+  test('tagList', () => {
+    service.create({
+      name: 'a',
+      content: 'a',
+      tag: ['a', 'b', 'c']
+    })
+
+    service.create({
+      name: 'a1',
+      content: 'a',
+      tag: ['d']
+    })
+
+    expect(service.tagList()).toEqual(['a', 'b', 'c', 'd'])
+  })
 })
 
 function resetData () {

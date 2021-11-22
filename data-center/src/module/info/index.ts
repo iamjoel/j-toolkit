@@ -95,6 +95,14 @@ class InfoService {
     }).value()
     return res
   }
+
+  classifyList(): string[] {
+    return this.db.get('classifyList').value()
+  }
+
+  tagList(): string[] {
+    return this.db.get('tagList').value()
+  }
 }
 
 export default InfoService 
