@@ -18,4 +18,16 @@ const getDB = <T>(name: string, defaultValue: T): low.LowdbSync<T> => {
   throw `no support name: ${name}`
 }
 
+export const getId = (db: low.LowdbSync<any>, key: string): number => {
+  const list = db.get(key).value()
+  if(list.length === 0) {
+    return 1
+  }
+  let maxId = Math.max(...list.map(({id}: {id: number}) => id).filter((id: number) => Number.isInteger(id)))
+  if(maxId < 0) {
+    maxId = 0
+  }
+  return maxId + 1
+} 
+
 export default getDB

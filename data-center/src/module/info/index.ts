@@ -1,9 +1,14 @@
 import low from 'lowdb'
-import getDB from "../../utils/get-db"
+import getDB, { getId } from "../../utils/db"
+
+type StringValue = {
+  id: number,
+  value: string
+}
 export interface DBStruct {
   data: Info[]
-  classifyList: string[],
-  tagList: string[]
+  classifyList: StringValue[],
+  tagList: StringValue[]
 }
 
 export const defaultValue: DBStruct = { // 默认
@@ -36,7 +41,7 @@ class InfoService {
     tag = [],
     name,
     ...restInfo
-  }: Info) :string{
+  }: Info) :number{
     try {
       const db = this.db
 
@@ -44,17 +49,22 @@ class InfoService {
       if(isNameExist) {
         throw `name: ${name} exist!`
       }
-
+      const id = getId(db, 'data')
       const data = {
+        id,
         classify,
         tag,
         name,
         ...restInfo
       }
+
       if(classify) {
-        const isNew = !db.get('classifyList').includes(classify).value()
+        const isNew = !db.get('classifyList').value().map(item => item.value).includes(classify)
         if(isNew) {
-          db.get('classifyList').push(classify).write()
+          db.get('classifyList').push({
+            id: getId(db, 'classifyList'),
+            value: classify
+          }).write()
         }
       } else {
         delete data.classify
@@ -62,9 +72,12 @@ class InfoService {
   
       if(tag.length > 0) {
         tag.forEach(t => {
-          const isNew = !db.get('tagList').includes(t).value()
+          const isNew = !db.get('tagList').value().map(item => item.value).includes(t)
           if(isNew) {
-            db.get('tagList').push(t).write()
+            db.get('tagList').push({
+              id: getId(db, 'tagList'),
+              value: t
+            }).write()
           }
         })
       } else {
@@ -72,7 +85,8 @@ class InfoService {
       }
   
       db.get('data').push(data).write()
-      return data.name
+
+      return id
     } catch(e) {
       throw e
     }
@@ -96,11 +110,11 @@ class InfoService {
     return res
   }
 
-  classifyList(): string[] {
+  classifyList(): StringValue[] {
     return this.db.get('classifyList').value()
   }
 
-  tagList(): string[] {
+  tagList(): StringValue[] {
     return this.db.get('tagList').value()
   }
 }

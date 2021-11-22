@@ -1,4 +1,4 @@
-import getDB from "./get-db"
+import getDB from "./db"
 import { DBStruct, defaultValue } from '../module/info' 
 const db = getDB<DBStruct>('info', defaultValue)
 
