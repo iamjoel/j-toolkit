@@ -2,7 +2,7 @@
 Vue3 + TypeScript。
 
 ## 文档
-* [单文件组件](https://v3.cn.vuejs.org/api/sfc-script-setup.html)
+* [单文件组件](https://v3.cn.vuejs.org/api/sfc-script-setup.html)。 可以通过 `getCurrentInstance` 拿到实例。
 * [Vite](https://cn.vitejs.dev/config/)
 * 路由
   * [vue-router-next](https://next.router.vuejs.org/zh/index.html)

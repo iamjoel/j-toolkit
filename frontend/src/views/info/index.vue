@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { h, reactive } from 'vue'
+import { h } from 'vue'
 // https://www.naiveui.com/zh-CN/os-theme/components/data-table#ajax-usage
 import { NDataTable, NForm, NFormItem, NInput, NSpace, NTag, NButton } from 'naive-ui'
+import useList from '@/hooks/list'
 import { Info } from './info'
 
-const searchConditions = reactive({
-  name: '',
-  content: ''
+const {
+  fetchList,
+  state,
+  searchConditions,
+  arr
+} = useList<Info>({
+  url: '/info/list',
+  searchConditions: {
+    name: '',
+    content: ''
+  }
 })
 
 const createColumns = () => {
@@ -47,44 +56,6 @@ const createColumns = () => {
 
 const getKey = (item: Info) => item.id
 
-const pagination = {
-  pageSize: 10
-}
-
-const list: Info[] = [
-  {
-    id: 1,
-    name: 'n',
-    content: 't',
-    classify: {
-      id: 1,
-      name: 'cn'
-    },
-    tags: [
-      {
-        id: 1,
-        name: 't1'
-      },
-      {
-        id: 2,
-        name: 't2'
-      },
-      {
-        id: 3,
-        name: 't3'
-      },
-      {
-        id: 4,
-        name: 't4'
-      }
-    ]
-  },
-  {
-    id: 1,
-    name: 'bb',
-    content: 'ccc',
-  }
-]
 </script>
 
 <template>
@@ -102,15 +73,16 @@ const list: Info[] = [
     </n-form>
     <div class="btn-wrap">
       <n-space>
-        <n-button type="primary">搜索</n-button>
+        <n-button type="primary" @click="fetchList(true)">搜索</n-button>
         <n-button type="default">重置</n-button>
       </n-space>
     </div>
+    {{arr}}
     <n-data-table
       :columns="createColumns()"
       :row-key="getKey"
-      :data="list"
-      :pagination="pagination" />
+      :data="state.list"
+      :pagination="state.pagination" />
   </n-space>
 </template>
 
