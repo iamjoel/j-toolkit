@@ -5,7 +5,7 @@ Vue3 + TypeScript。
 * [单文件组件](https://v3.cn.vuejs.org/api/sfc-script-setup.html)
 * [Vite](https://cn.vitejs.dev/config/)
 * 路由
-  * [vue-router-next](https://next.router.vuejs.org/)
+  * [vue-router-next](https://next.router.vuejs.org/zh/index.html)
 * 组件库
   * [Naive UI](https://www.naiveui.com/zh-CN/os-theme)
   * [xicons](https://www.xicons.org/#/)

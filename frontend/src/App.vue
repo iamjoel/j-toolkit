@@ -1,48 +1,6 @@
 <script setup lang="ts">
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-
-import { h, resolveComponent } from 'vue'
-import { darkTheme, NConfigProvider , NMenu, NLayout, NLayoutHeader, NLayoutSider, NIcon } from 'naive-ui'
-import {
-  Apps as AppIcon,
-  Information as InfoIcon,
-  Paw as PawInfo
-} from '@vicons/ionicons5'
-const handleUpdateValue = () => {}
-
-const  renderIcon  = (icon: any) => {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
-interface Menu {
-  path: string
-  name: string
-  icon?: any
-}
-const renderMenuItem = ({
-  path,
-  name,
-  icon = AppIcon
-} : Menu) => {
-  return {
-    label: () =>
-      h(
-        resolveComponent('router-link') as any,
-        {
-          to: {
-            path
-          }
-        },
-        { default: () => name }
-      ),
-    key: 'info',
-    icon: renderIcon(icon)
-  }
-}
-const menuOptions = [
-  renderMenuItem({name: '信息', path: '/info', icon: InfoIcon}),
-  renderMenuItem({name: '代理', path: '/proxy', icon: PawInfo})
-]
-
+import { darkTheme, NConfigProvider, NLayout, NLayoutHeader, NLayoutSider } from 'naive-ui'
+import Menu from '@/components/Menu.vue'
 </script>
 
 <template>
@@ -66,7 +24,7 @@ const menuOptions = [
             :native-scrollbar="false"
             inverted
           >
-            <n-menu @update:value="handleUpdateValue" :options="menuOptions" />
+            <Menu />
           </n-layout-sider>
           <n-layout>
             <div class="main-body">
