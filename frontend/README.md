@@ -12,5 +12,9 @@ Vue3 + TypeScript。
 * 状态管理
   * [Pinia](https://pinia.esm.dev/)
 
+## 注意
+### reactive 的子项的响应式
+reactive 的子项在自定义hooks中返回，是不响应的。返回整个 reactive 是响应的。
+
 ## 工具
 - [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) VSCode 插件。
