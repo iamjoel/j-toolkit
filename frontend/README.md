@@ -1,4 +1,6 @@
 # Joel 工具箱 前端
+[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
+
 Vue3 + TypeScript。
 
 ## 文档
@@ -24,4 +26,6 @@ naive-ui 里的 n-layout-sider 加了 inverted 属性后，皮肤切换会出问
 * 代码格式化
   * [JavaScript Standard Style](https://standardjs.com/)
   * [ts-standard](https://github.com/standard/ts-standard)
+  * [eslint rules](https://eslint.org/docs/rules/)
+  * [eslint-config-standard](https://www.npmjs.com/package/eslint-config-standard)
   * [vscode-standard](https://marketplace.visualstudio.com/items?itemName=standard.vscode-standard)
