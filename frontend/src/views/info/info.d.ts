@@ -1,5 +1,5 @@
-export type IDName = {
-  id: number,
+export interface IDName {
+  id: number
   name: string
 }
 

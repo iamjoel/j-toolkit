@@ -11,16 +11,16 @@ const useConfigStore = defineStore('counter', {
   },
 
   getters: {
-    isDarkTheme(state) {
+    isDarkTheme (state) {
       return state.theme === Theme.dark
     }
   },
 
   actions: {
-    toggleTheme() {
+    toggleTheme () {
       this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark
-    },
-  },
+    }
+  }
 })
 
 export default useConfigStore

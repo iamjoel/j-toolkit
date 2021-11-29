@@ -1,19 +1,26 @@
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, Ref } from 'vue'
 export interface Params {
   url: string
   searchConditions: Record<string, any>
 }
 
-function useList<T extends Record<string, any>>({
+interface Return<T> {
+  searchConditions: Record<string, any>
+  pagination: Record<string, any>
+  fetchList: (isReset: boolean) => void
+  list: Ref<T[]>
+}
+
+function useList<T extends Record<string, any>> ({
   url,
   searchConditions: initCondition
-}: Params) {
-  const list = ref<T[]>([])
+}: Params): Return<T> {
+  const list = ref<T[]>([]) as Ref<T[]>
   const searchConditions = reactive(initCondition)
   const pagination = reactive({
     pageSize: 10
   })
-  const fetchList = (isReset: boolean = false) => {
+  const fetchList = (isReset: boolean = false): void => {
     console.log(`搜索列表: ${url}, 条件：${JSON.stringify(searchConditions)}`)
     list.value = [
       {
@@ -46,16 +53,16 @@ function useList<T extends Record<string, any>>({
       {
         id: 2,
         name: 'bb',
-        content: 'ccc',
+        content: 'ccc'
       },
       {
         id: 3,
         name: 'bb2',
-        content: 'ccc',
-      },
+        content: 'ccc'
+      }
     ] as any
 
-    if(Math.random() > .5) {
+    if (Math.random() > 0.5) {
       list.value = []
     }
   }
@@ -64,11 +71,11 @@ function useList<T extends Record<string, any>>({
     fetchList()
   })
 
-    return {
+  return {
     searchConditions,
     pagination,
     fetchList,
-    list,
+    list
   }
 }
 

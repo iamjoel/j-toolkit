@@ -5,6 +5,9 @@ import routes from './routes'
 
 import App from './App.vue'
 
+// store
+import { createPinia } from 'pinia'
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes
@@ -12,9 +15,6 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
-
-// store
-import { createPinia } from 'pinia'
 app.use(createPinia())
 
 app.mount('#app')

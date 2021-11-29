@@ -20,4 +20,8 @@ reactive 的子项在自定义hooks中返回，是不响应的。返回整个 re
 naive-ui 里的 n-layout-sider 加了 inverted 属性后，皮肤切换会出问题。
 
 ## 工具
-- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) VSCode 插件。
+* [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) VSCode 插件。
+* 代码格式化
+  * [JavaScript Standard Style](https://standardjs.com/)
+  * [ts-standard](https://github.com/standard/ts-standard)
+  * [vscode-standard](https://marketplace.visualstudio.com/items?itemName=standard.vscode-standard)
