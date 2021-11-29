@@ -6,6 +6,7 @@ export interface Params {
 
 interface Return<T> {
   searchConditions: Record<string, any>
+  resetConditions: () => void
   pagination: Record<string, any>
   fetchList: (isReset: boolean) => void
   list: Ref<T[]>
@@ -16,7 +17,7 @@ function useList<T extends Record<string, any>> ({
   searchConditions: initCondition
 }: Params): Return<T> {
   const list = ref<T[]>([]) as Ref<T[]>
-  const searchConditions = reactive(initCondition)
+  const searchConditions = reactive({...initCondition})
   const pagination = reactive({
     pageSize: 10
   })
@@ -67,12 +68,21 @@ function useList<T extends Record<string, any>> ({
     }
   }
 
+  const resetConditions = () => {
+    Object.keys(initCondition).forEach(key => {
+      searchConditions[key] = initCondition[key]
+    })
+
+    fetchList(true)
+  } 
+
   onMounted(() => {
     fetchList()
   })
 
   return {
     searchConditions,
+    resetConditions,
     pagination,
     fetchList,
     list

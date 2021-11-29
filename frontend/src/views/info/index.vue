@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { h } from 'vue'
 // https://www.naiveui.com/zh-CN/os-theme/components/data-table#ajax-usage
-import { NDataTable, NForm, NFormItem, NInput, NSpace, NTag, NButton, NSelect } from 'naive-ui'
+import { NDataTable, NSpace, NTag } from 'naive-ui'
+import SearchCondition from '@/components/list/SearchConditions.vue'
 import useList from '@/hooks/list'
 import { Info } from './info'
 
 const {
   searchConditions,
+  resetConditions,
   pagination,
   fetchList,
   list
@@ -62,21 +64,22 @@ const getKey = (item: Info) => item.id
 
 <template>
   <n-space vertical>
-    <n-form
-      inline
-      v-model:value="searchConditions"
-    >
-      <n-form-item label="名称" class="form-item">
-        <n-input v-model:value="searchConditions.name" placeholder="请输入名称"/>
-      </n-form-item>
-      <n-form-item label="内容" class="form-item">
-        <n-input v-model:value="searchConditions.content" placeholder="请输入内容"/>
-      </n-form-item>
-      <n-form-item label="分类" class="form-item">
-        <n-select
-          v-model:value="searchConditions.classify"
-          clearable
-          :options="[
+    <SearchCondition
+      :data="searchConditions"
+      :list="[
+        {
+          key: 'name',
+          name: '名称'
+        },
+        {
+          key: 'content',
+          name: '内容'
+        },
+        {
+          key: 'classify',
+          name: '分类',
+          type: 'select',
+          options: [
             {
               label: '分类1',
               value: 1
@@ -85,16 +88,14 @@ const getKey = (item: Info) => item.id
               label: '分类2',
               value: 2
             },
-          ]"
-          placeholder="请选择"
-        />
-      </n-form-item>
-      <n-form-item label="标签" class="form-item">
-        <n-select
-          v-model:value="searchConditions.tag"
-          clearable
-          multiple
-          :options="[
+          ]
+        },
+        {
+          key: 'tag',
+          name: '标签',
+          type: 'select',
+          multiple: true,
+          options: [
             {
               label: '标签1',
               value: 1
@@ -103,32 +104,18 @@ const getKey = (item: Info) => item.id
               label: '标签2',
               value: 2
             },
-          ]"
-          placeholder="请选择"
-        />
-      </n-form-item>
-    </n-form>
-    <div class="btn-wrap">
-      <n-space>
-        <n-button type="primary" @click="fetchList(true)">搜索</n-button>
-        <n-button type="default">重置</n-button>
-      </n-space>
-    </div>
+          ]
+        }
+      ]"
+      @search="fetchList(true)"
+      @reset="resetConditions"
+    />
+    
     <n-data-table
       :columns="createColumns()"
       :row-key="getKey"
       :data="list"
-      :pagination="pagination" />
+      :pagination="pagination"
+    />
   </n-space>
 </template>
-
-<style scoped>
-/* 覆盖默认样式 */
-.n-form.n-form--inline .form-item {
-  width: 200px ;
-}
-.btn-wrap {
-  display: flex;
-  justify-content: flex-end;
-}
-</style>
