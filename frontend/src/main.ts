@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+// router
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
@@ -11,4 +12,9 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+
+// store
+import { createPinia } from 'pinia'
+app.use(createPinia())
+
 app.mount('#app')

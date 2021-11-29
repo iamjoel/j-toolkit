@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { darkTheme, NConfigProvider, NLayout, NLayoutHeader, NLayoutSider } from 'naive-ui'
+import { computed } from 'vue'
+import useConfigStore, { Theme } from '@/stores/config'
+import { darkTheme, NConfigProvider, NLayout, NLayoutHeader, NLayoutSider, NButton } from 'naive-ui'
 import Menu from '@/components/Menu.vue'
+
+const config = useConfigStore()
+const currTheme = computed(() => config.theme)
+const isDarkTheme = computed(() => config.theme === Theme.dark)
 </script>
 
 <template>
-  <n-config-provider :theme="darkTheme">
-    <n-layout>
+  <n-config-provider :theme="isDarkTheme ? darkTheme : null">
+    <n-layout :class="currTheme">
       <n-layout-header class="header" bordered>
         <router-link class="name" to="/">
           Joel 的工具箱
         </router-link>
+
+        <div class="actions">
+          <n-button @click="config.toggleTheme()">
+            {{isDarkTheme ? '深色' : '浅色'}}
+          </n-button>
+        </div>
       </n-layout-header>
       <n-layout
         class="main"
@@ -22,7 +34,6 @@ import Menu from '@/components/Menu.vue'
             :collapsed-width="52"
             :width="240"
             :native-scrollbar="false"
-            inverted
           >
             <Menu />
           </n-layout-sider>
@@ -49,6 +60,9 @@ import Menu from '@/components/Menu.vue'
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+}
+.light .name {
+  color: #333;
 }
 .main {
   height: calc(100vh - 64px);

@@ -16,5 +16,8 @@ Vue3 + TypeScript。
 ### reactive 的子项的响应式
 reactive 的子项在自定义hooks中返回，是不响应的。返回整个 reactive 是响应的。
 
+### naive-ui
+naive-ui 里的 n-layout-sider 加了 inverted 属性后，皮肤切换会出问题。
+
 ## 工具
 - [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) VSCode 插件。

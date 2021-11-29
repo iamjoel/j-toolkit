@@ -13,6 +13,7 @@
   "dependencies": {
     "@vicons/ionicons5": "^0.11.0",
     "naive-ui": "^2.21.1",
+    "pinia": "^2.0.4",
     "vue": "^3.2.16",
     "vue-router": "4"
   },
