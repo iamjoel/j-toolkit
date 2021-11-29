@@ -6,10 +6,10 @@ import useList from '@/hooks/list'
 import { Info } from './info'
 
 const {
-  fetchList,
-  state,
   searchConditions,
-  arr
+  pagination,
+  fetchList,
+  list
 } = useList<Info>({
   url: '/info/list',
   searchConditions: {
@@ -65,10 +65,10 @@ const getKey = (item: Info) => item.id
       v-model:value="searchConditions"
     >
       <n-form-item label="名称">
-        <n-input v-model:value="searchConditions.name"/>
+        <n-input v-model:value="searchConditions.name" placeholder="请输入名称"/>
       </n-form-item>
       <n-form-item label="内容">
-        <n-input v-model:value="searchConditions.content"/>
+        <n-input v-model:value="searchConditions.content" placeholder="请输入内容"/>
       </n-form-item>
     </n-form>
     <div class="btn-wrap">
@@ -77,12 +77,11 @@ const getKey = (item: Info) => item.id
         <n-button type="default">重置</n-button>
       </n-space>
     </div>
-    {{arr}}
     <n-data-table
       :columns="createColumns()"
       :row-key="getKey"
-      :data="state.list"
-      :pagination="state.pagination" />
+      :data="list"
+      :pagination="pagination" />
   </n-space>
 </template>
 

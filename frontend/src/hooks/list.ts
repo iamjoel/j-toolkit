@@ -8,18 +8,14 @@ function useList<T extends Record<string, any>>({
   url,
   searchConditions: initCondition
 }: Params) {
-  const state = reactive({
-    list: [],
-    pagination: {
-      pageSize: 10
-    }
-  })
+  const list = ref<T[]>([])
   const searchConditions = reactive(initCondition)
-  const arr = ref([])
+  const pagination = reactive({
+    pageSize: 10
+  })
   const fetchList = (isReset: boolean = false) => {
-    console.log(`搜索列表: ${url}, 条件：${searchConditions}`)
-    arr.value = [Math.random()]
-    state.list = [
+    console.log(`搜索列表: ${url}, 条件：${JSON.stringify(searchConditions)}`)
+    list.value = [
       {
         id: 1,
         name: 'n',
@@ -48,22 +44,31 @@ function useList<T extends Record<string, any>>({
         ]
       },
       {
-        id: 1,
+        id: 2,
         name: 'bb',
         content: 'ccc',
-      }
+      },
+      {
+        id: 3,
+        name: 'bb2',
+        content: 'ccc',
+      },
     ] as any
+
+    if(Math.random() > .5) {
+      list.value = []
+    }
   }
 
   onMounted(() => {
     fetchList()
   })
 
-  return {
-    fetchList,
+    return {
     searchConditions,
-    state,
-    arr
+    pagination,
+    fetchList,
+    list,
   }
 }
 
