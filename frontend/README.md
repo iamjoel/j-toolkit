@@ -18,6 +18,29 @@ Vue3 + TypeScript。
 ### reactive 的子项的响应式
 reactive 的子项在自定义hooks中返回，是不响应的。返回整个 reactive 是响应的。
 
+### v-model
+```
+<ChildComponent v-model="pageTitle" />
+
+<!-- 是以下的简写: -->
+
+<ChildComponent
+  :modelValue="pageTitle"
+  @update:modelValue="pageTitle = $event"
+/>
+```
+
+改其他属性值的简写：
+```
+<ChildComponent v-model:title="pageTitle" />
+
+<!-- 是以下的简写: -->
+
+<ChildComponent :title="pageTitle" @update:title="pageTitle = $event" />
+```
+
+
+
 ### naive-ui
 naive-ui 里的 n-layout-sider 加了 inverted 属性后，皮肤切换会出问题。
 

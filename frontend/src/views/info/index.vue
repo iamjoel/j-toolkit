@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h } from 'vue'
 // https://www.naiveui.com/zh-CN/os-theme/components/data-table#ajax-usage
-import { NDataTable, NSpace, NTag } from 'naive-ui'
+import { NDataTable, NSpace, NTag, NButton, NPopconfirm } from 'naive-ui'
 import SearchCondition from '@/components/list/SearchConditions.vue'
 import useList from '@/hooks/list'
 import { Info } from './info'
@@ -11,7 +11,9 @@ const {
   resetConditions,
   pagination,
   fetchList,
-  list
+  list,
+  isLoading,
+  getKey
 } = useList<Info>({
   url: '/info/list',
   searchConditions: {
@@ -21,6 +23,10 @@ const {
     tag: []
   }
 })
+
+const onConfirmDelete = (id: number) => {
+  console.log(`delete ${id}`)
+}
 
 const createColumns = () => {
   return [
@@ -54,11 +60,41 @@ const createColumns = () => {
         }
         return h('div', '-')
       }
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render(row: Info) {
+        const editBtn = h(NButton, {
+          type: 'primary',
+          onClick: () => {
+            console.log(row.name)
+          }
+        }, '编辑')
+
+        
+        const deleteBtn = h(
+          NPopconfirm,
+          {
+            onPositiveClick: "onConfirmDelete(item.id)"
+          },
+          [
+            h('template', {
+              slot: 'trigger'
+            }, h(NButton, {
+              type: 'error',
+            }, '删除')),
+            h('template', {
+              slot: 'default'
+            }, '确定删除？')
+          ]
+          
+        )
+        return h(NSpace, [editBtn, deleteBtn])
+      }
     }
   ]
 }
-
-const getKey = (item: Info) => item.id
 
 </script>
 
@@ -115,6 +151,7 @@ const getKey = (item: Info) => item.id
       :columns="createColumns()"
       :row-key="getKey"
       :data="list"
+      :loading="isLoading"
       :pagination="pagination"
     />
   </n-space>

@@ -10,62 +10,70 @@ interface Return<T> {
   pagination: Record<string, any>
   fetchList: (isReset: boolean) => void
   list: Ref<T[]>
+  isLoading: Ref<boolean>
+  getKey: (item: T) => string | number
 }
 
 function useList<T extends Record<string, any>> ({
   url,
   searchConditions: initCondition
 }: Params): Return<T> {
-  const list = ref<T[]>([]) as Ref<T[]>
   const searchConditions = reactive({...initCondition})
   const pagination = reactive({
     pageSize: 10
   })
+  const list = ref<T[]>([]) as Ref<T[]>
+  const isLoading = ref(false) as Ref<boolean>
   const fetchList = (isReset: boolean = false): void => {
+    isLoading.value = true
     console.log(`搜索列表: ${url}, 条件：${JSON.stringify(searchConditions)}`)
-    list.value = [
-      {
-        id: 1,
-        name: 'n',
-        content: 't',
-        classify: {
+    setTimeout(() => {
+      list.value = [
+        {
           id: 1,
-          name: 'cn'
-        },
-        tags: [
-          {
+          name: 'n',
+          content: 't',
+          classify: {
             id: 1,
-            name: 't1'
+            name: 'cn'
           },
-          {
-            id: 2,
-            name: 't2'
-          },
-          {
-            id: 3,
-            name: 't3'
-          },
-          {
-            id: 4,
-            name: 't4'
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'bb',
-        content: 'ccc'
-      },
-      {
-        id: 3,
-        name: 'bb2',
-        content: 'ccc'
+          tags: [
+            {
+              id: 1,
+              name: 't1'
+            },
+            {
+              id: 2,
+              name: 't2'
+            },
+            {
+              id: 3,
+              name: 't3'
+            },
+            {
+              id: 4,
+              name: 't4'
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: 'bb',
+          content: 'ccc'
+        },
+        {
+          id: 3,
+          name: 'bb2',
+          content: 'ccc'
+        }
+      ] as any
+  
+      if (Math.random() > 0.5) {
+        list.value = []
       }
-    ] as any
 
-    if (Math.random() > 0.5) {
-      list.value = []
-    }
+      isLoading.value = false
+    }, 100)
   }
 
   const resetConditions = () => {
@@ -74,7 +82,9 @@ function useList<T extends Record<string, any>> ({
     })
 
     fetchList(true)
-  } 
+  }
+
+  const getKey = (item: T) => item.id
 
   onMounted(() => {
     fetchList()
@@ -85,7 +95,9 @@ function useList<T extends Record<string, any>> ({
     resetConditions,
     pagination,
     fetchList,
-    list
+    list,
+    isLoading,
+    getKey
   }
 }
 
