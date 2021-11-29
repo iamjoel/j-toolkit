@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h } from 'vue'
 // https://www.naiveui.com/zh-CN/os-theme/components/data-table#ajax-usage
-import { NDataTable, NForm, NFormItem, NInput, NSpace, NTag, NButton } from 'naive-ui'
+import { NDataTable, NForm, NFormItem, NInput, NSpace, NTag, NButton, NSelect } from 'naive-ui'
 import useList from '@/hooks/list'
 import { Info } from './info'
 
@@ -14,7 +14,9 @@ const {
   url: '/info/list',
   searchConditions: {
     name: '',
-    content: ''
+    content: '',
+    classify: null,
+    tag: []
   }
 })
 
@@ -64,11 +66,46 @@ const getKey = (item: Info) => item.id
       inline
       v-model:value="searchConditions"
     >
-      <n-form-item label="名称">
+      <n-form-item label="名称" class="form-item">
         <n-input v-model:value="searchConditions.name" placeholder="请输入名称"/>
       </n-form-item>
-      <n-form-item label="内容">
+      <n-form-item label="内容" class="form-item">
         <n-input v-model:value="searchConditions.content" placeholder="请输入内容"/>
+      </n-form-item>
+      <n-form-item label="分类" class="form-item">
+        <n-select
+          v-model:value="searchConditions.classify"
+          clearable
+          :options="[
+            {
+              label: '分类1',
+              value: 1
+            },
+            {
+              label: '分类2',
+              value: 2
+            },
+          ]"
+          placeholder="请选择"
+        />
+      </n-form-item>
+      <n-form-item label="标签" class="form-item">
+        <n-select
+          v-model:value="searchConditions.tag"
+          clearable
+          multiple
+          :options="[
+            {
+              label: '标签1',
+              value: 1
+            },
+            {
+              label: '标签2',
+              value: 2
+            },
+          ]"
+          placeholder="请选择"
+        />
       </n-form-item>
     </n-form>
     <div class="btn-wrap">
@@ -86,6 +123,10 @@ const getKey = (item: Info) => item.id
 </template>
 
 <style scoped>
+/* 覆盖默认样式 */
+.n-form.n-form--inline .form-item {
+  width: 200px ;
+}
 .btn-wrap {
   display: flex;
   justify-content: flex-end;
