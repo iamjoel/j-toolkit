@@ -10,6 +10,12 @@ const useConfigStore = defineStore('counter', {
     return { theme: Theme.dark }
   },
 
+  getters: {
+    isDarkTheme(state) {
+      return state.theme === Theme.dark
+    }
+  },
+
   actions: {
     toggleTheme() {
       this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark

@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import useConfigStore, { Theme } from '@/stores/config'
+import useConfigStore from '@/stores/config'
 import { darkTheme, NConfigProvider, NLayout, NLayoutHeader, NLayoutSider, NButton } from 'naive-ui'
 import Menu from '@/components/Menu.vue'
 
 const config = useConfigStore()
-const currTheme = computed(() => config.theme)
-const isDarkTheme = computed(() => config.theme === Theme.dark)
+const isDarkTheme = computed(() => config.isDarkTheme)
 </script>
 
 <template>
   <n-config-provider :theme="isDarkTheme ? darkTheme : null">
-    <n-layout :class="currTheme">
+    <n-layout :class="config.theme">
       <n-layout-header class="header" bordered>
         <router-link class="name" to="/">
           Joel 的工具箱
